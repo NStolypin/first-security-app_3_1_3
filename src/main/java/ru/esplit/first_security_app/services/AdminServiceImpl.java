@@ -16,14 +16,12 @@ public class AdminServiceImpl implements AdminService {
 
     private final PeopleRepository peopleRepository;
     private final RegistrationService registrationService;
-    private final PasswordEncoder passwordEncoder;
 
     public AdminServiceImpl(PeopleRepository peopleRepository,
             RegistrationService registrationService,
             PasswordEncoder passwordEncoder) {
         this.peopleRepository = peopleRepository;
         this.registrationService = registrationService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override

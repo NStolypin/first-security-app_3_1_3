@@ -23,7 +23,7 @@ public class PersonDTO {
             personDTO.setId(person.getId());
             personDTO.setUsername(person.getUsername());
             personDTO.setYearOfBirth(person.getYearOfBirth());
-            personDTO.setPassword(person.getPassword());
+            //personDTO.setPassword(person.getPassword());
             for (Role role : person.getRoles()) {
                 RoleDTO roleDTO = new RoleDTO();
                 roleDTO.setId(role.getId());

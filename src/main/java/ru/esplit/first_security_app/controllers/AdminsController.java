@@ -1,5 +1,7 @@
 package ru.esplit.first_security_app.controllers;
 
+import java.util.Optional;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -53,15 +55,18 @@ public class AdminsController {
     public String showOneUser(@PathVariable("id") long id, Model model) {
         PersonDetails personDetails = (PersonDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("personDetails", personDetails.getPerson());
-        model.addAttribute("person", adminService.getOnePerson(id));
-        return "admins/get_one_user";
+        Optional<Person> person = adminService.getOnePerson(id);
+        if (person.isPresent()) {
+            model.addAttribute("person", person.get());
+            model.addAttribute("roles", roleService.getAllRoles());
+            return "admins/edit";
+        }
+        return "redirect:/admin";
     }
 
     @GetMapping("/users/{id}/edit")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String edit(Model model, @PathVariable("id") long id) {
-        PersonDetails personDetails = (PersonDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("personDetails", personDetails.getPerson());
         model.addAttribute("person", adminService.getOnePerson(id));
         return "admins/edit";
     }
@@ -71,6 +76,7 @@ public class AdminsController {
     public String update(@ModelAttribute("person") @Valid Person person,
             BindingResult bindingResult, @PathVariable("id") long id, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("roles", roleService.getAllRoles());
             model.addAttribute("roles", roleService.getAllRoles());
             return "admins/edit";
         }
@@ -90,6 +96,7 @@ public class AdminsController {
     @GetMapping("/users/new")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String newPerson(@ModelAttribute("person") Person person, Model model) {
+        model.addAttribute("roles", roleService.getAllRoles());
         return "admins/new";
     }
 
@@ -98,8 +105,7 @@ public class AdminsController {
     public String create(@ModelAttribute("person") @Valid Person person, 
             BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            PersonDetails personDetails = (PersonDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            model.addAttribute("personDetails", personDetails.getPerson());
+            model.addAttribute("roles", roleService.getAllRoles());
             return "admins/new";
         }
         adminService.create(person);

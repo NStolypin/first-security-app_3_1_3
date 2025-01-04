@@ -8,7 +8,6 @@
 </head>
 
 <body>
-    <div th:insert="~{logout :: logout}"></div>
     <h1>Создать нового пользователя</h1>
     <form th:method="POST" th:action="@{/admin/users/new}" th:object="${person}">
         <label for="${'username' + person.getId()}" class="form-label">Введите ФИО: </label>
@@ -26,7 +25,7 @@
         </div>
         <label for="${'usersRoles' + person.getId()}" class="form-label">Выбарите роли: </label>
         <select class="form-select" multiple name="roles" th:id="${'usersRoles' + person.getId()}">
-          <option th:each="role : ${roles}" th:value="${role.getId()}" th:text="${role.getId()}" th:selected="${person.getRoles().contains(role) ? true : false}">ROLE</option>
+          <option th:each="role : ${roles}" th:value="${role.getId()}" th:text="${role.getId()}">ROLE</option>
         </select>
         <input type="submit" class="btn btn-success" value="Редактировать" />
       </form>

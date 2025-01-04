@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ru.esplit.first_security_app.dto.RoleDTO;
 import ru.esplit.first_security_app.models.Person;
 import ru.esplit.first_security_app.models.Role;
 import ru.esplit.first_security_app.repositories.RoleRepository;
@@ -26,6 +27,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> getAllRoles() {
         return roleRepository.findAll();
+    }
+
+    @Override
+    public Optional<Role> findById(String id) {
+        return roleRepository.findById(id);
     }
 
     @Transactional
@@ -51,6 +57,11 @@ public class RoleServiceImpl implements RoleService {
                 lr.add(roleO.get());
             }
         }
+    }
+
+    @Override
+    public Optional<Role> convertToRole(RoleDTO roleDTO) {
+        return findById(roleDTO.getId());
     }
 
 }

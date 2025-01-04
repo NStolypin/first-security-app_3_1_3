@@ -40,7 +40,7 @@ public class AdminServiceImpl implements AdminService {
         Optional<Person> personForUpdated = getOnePerson(id);
         if (personForUpdated.isPresent()) {
             updatedUser.setId(id);
-            peopleRepository.save(updatedUser);
+            registrationService.register(updatedUser);
         }
     }
 

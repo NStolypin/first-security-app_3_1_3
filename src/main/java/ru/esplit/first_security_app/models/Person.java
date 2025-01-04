@@ -40,7 +40,8 @@ public class Person {
     @Column(name = "year_of_birth")
     private int yearOfBirth;
 
-    @Column(name = "password")
+    @NotEmpty(message = "Пароль не должно быть пустым")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)

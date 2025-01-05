@@ -36,14 +36,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class AdminRestController {
 
     private final AdminService adminService;
-    private final RoleService roleService;
     private final PeopleService peopleService;
 
     public AdminRestController(AdminService adminService,
             RoleService roleService,
             PeopleService peopleService) {
         this.adminService = adminService;
-        this.roleService = roleService;
         this.peopleService = peopleService;
     }
 

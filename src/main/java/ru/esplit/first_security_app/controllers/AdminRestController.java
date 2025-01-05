@@ -62,19 +62,19 @@ public class AdminRestController {
     @PostMapping("/person")
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid PersonDTO personDTO,
             BindingResult bindingResult) {
-        // if (bindingResult.hasErrors()) {
-        //     StringBuilder errorMsg = new StringBuilder();
-        //     List<FieldError> errors = bindingResult.getFieldErrors();
-        //     for (FieldError error : errors) {
-        //         errorMsg.append(error.getField())
-        //                 .append(" - ").append(error.getDefaultMessage())
-        //                 .append(";");
-        //     }
+        if (bindingResult.hasErrors()) {
+            StringBuilder errorMsg = new StringBuilder();
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for (FieldError error : errors) {
+                errorMsg.append(error.getField())
+                        .append(" - ").append(error.getDefaultMessage())
+                        .append(";");
+            }
 
-        //     throw new PersonNotCreatedException(errorMsg.toString());
-        // }
+            throw new PersonNotCreatedException(errorMsg.toString());
+        }
 
-        // peopleService.save(peopleService.convertToPerson(personDTO));
+        peopleService.save(peopleService.convertToPerson(personDTO));
         return ResponseEntity.ok(HttpStatus.OK);
     }
     

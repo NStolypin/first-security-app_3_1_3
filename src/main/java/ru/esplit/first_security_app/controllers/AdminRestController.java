@@ -85,7 +85,7 @@ public class AdminRestController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PatchMapping("/patch")
+    @PatchMapping("/person")
     public ResponseEntity<HttpStatus> patch(@RequestBody @Valid PersonDTO personDTO,
             BindingResult bindingResult){
         if (bindingResult.hasErrors()) {

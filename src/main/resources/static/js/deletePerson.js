@@ -3,14 +3,12 @@
 
     let SpLst = document.getElementById('myTableBody');
     SpLst.onclick = function (event) {
-        let td = event.target.closest('.dltPerson');
-        if (!td) return;
-        if (!SpLst.contains(td)) return;
-        evclick(td);
+       
     }
 }());
 
-function evclick(item) {
+function deleteclick(item) {
+    alert("click delete");
     let id = { id: Number(item.getAttribute('data-dlt-person')) }
     fetch("/api/delete", {
         method: 'DELETE',

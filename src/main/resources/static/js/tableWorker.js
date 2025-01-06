@@ -11,7 +11,7 @@
                 <td>${item.id}</td>
                 <td>${item.username}</td>
                 <td>${item.yearOfBirth}</td>
-                <td>${item.roles}</td>
+                <td>${stringOfRoles(item.roles)}</td>
                 <td>
                     <button type=\"button\" class=\"btn btn-primary editPerson\" data-id-person=\"${item.id}\" data-bs-toggle=\"modal\" data-bs-target=\"#editUser\">Редактировать</button>
                 </td>
@@ -25,3 +25,8 @@
     alert("Ошибка HTTP: " + response.status);
     }
 }());
+
+function stringOfRoles(roles) {
+    let idsOfRoles = roles.map(item => item.id)
+    return idsOfRoles.join(' ');
+}

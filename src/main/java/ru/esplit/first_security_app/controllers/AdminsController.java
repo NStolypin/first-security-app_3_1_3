@@ -89,7 +89,7 @@ public class AdminsController {
     public String delete(@PathVariable("id") long id, Model model) {
         PersonDetails personDetails = (PersonDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("personDetails", personDetails.getPerson());
-        adminService.delete(id);
+        adminService.delete(id, personDetails.getPerson().getId());
         return "redirect:/admin";
     }
 

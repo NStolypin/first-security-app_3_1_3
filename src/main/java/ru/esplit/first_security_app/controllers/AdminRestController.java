@@ -1,12 +1,10 @@
 package ru.esplit.first_security_app.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -21,12 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import ru.esplit.first_security_app.dto.IdPersonDTO;
 import ru.esplit.first_security_app.dto.PersonDTO;
-import ru.esplit.first_security_app.dto.RoleDTO;
-import ru.esplit.first_security_app.models.Person;
-import ru.esplit.first_security_app.models.Role;
+import ru.esplit.first_security_app.security.PersonDetails;
 import ru.esplit.first_security_app.services.AdminService;
 import ru.esplit.first_security_app.services.PeopleService;
 import ru.esplit.first_security_app.services.RoleService;
+import ru.esplit.first_security_app.util.PersonDoNotDeleteException;
 import ru.esplit.first_security_app.util.PersonErrorResponse;
 import ru.esplit.first_security_app.util.PersonNotCreatedException;
 import ru.esplit.first_security_app.util.PersonNotFoundException;
@@ -61,7 +58,7 @@ public class AdminRestController {
     }
 
     @PostMapping("/person")
-    public ResponseEntity<HttpStatus> create(@RequestBody @Valid PersonDTO personDTO,
+    public ResponseEntity<?> create(@RequestBody @Valid PersonDTO personDTO,
             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             StringBuilder errorMsg = new StringBuilder();
@@ -74,14 +71,19 @@ public class AdminRestController {
 
             throw new PersonNotCreatedException(errorMsg.toString());
         }
-
-        peopleService.save(peopleService.convertToPerson(personDTO, false));
-        return ResponseEntity.ok(HttpStatus.OK);
+        IdPersonDTO idPersonDTO = new IdPersonDTO();
+        idPersonDTO.setId(peopleService.save(peopleService.convertToPerson(personDTO, false)));
+        return new ResponseEntity<>(idPersonDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<HttpStatus> delete(@RequestBody IdPersonDTO idPersonDTO){
-        adminService.delete(idPersonDTO.getId());
+        PersonDetails personDetails = (PersonDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (idPersonDTO.getId() == personDetails.getPerson().getId()) {
+            String errorMsg = "Вы не можете удалить сами себя";
+            throw new PersonDoNotDeleteException(errorMsg);
+        }
+        adminService.delete(idPersonDTO.getId(), personDetails.getPerson().getId());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

@@ -36,8 +36,8 @@ public class PeopleServiceImpl implements PeopleService {
     }
 
     @Transactional
-    public void save(Person person) {
-        this.registrationService.register(person);
+    public long save(Person person) {
+        return this.registrationService.register(person);
     }
 
     @Override

@@ -19,8 +19,9 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Transactional
-    public void register(Person person) {
+    public long register(Person person) {
         person.setPassword(passwordEncoder.encode(person.getPassword()));
         peopleRepository.save(person);
+        return person.getId();
     }
 }

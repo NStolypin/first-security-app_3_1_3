@@ -13,7 +13,7 @@ public interface AdminService {
 
     void update(long id, Person updatedUser);
 
-    void delete(long id);
+    void delete(long id, long principalId);
 
     void create(Person person);
 

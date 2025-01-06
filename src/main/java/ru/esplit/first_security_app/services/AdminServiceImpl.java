@@ -46,8 +46,11 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional
     @Override
-    public void delete(long id) {
-        peopleRepository.deleteById(id);
+    public void delete(long id, long principalId) {
+        if (id != principalId) {
+            peopleRepository.deleteById(id);
+        }
+        
     }
 
     @Transactional

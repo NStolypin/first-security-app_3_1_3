@@ -18,8 +18,10 @@
 
 function editClick(item) {
     let rowOfPerson = item.parentElement.parentElement;
+    document.getElementById("ansErrorR");
     let listOfRoles = document.getElementById("usersRolesR");
     let rolesOfPerson = document.getElementById("yearOfBirthR").value = rowOfPerson.children[3].textContent.split(' ');
+    document.getElementById("ansErrorR").innerText = "";
     document.getElementById("idPerson").value = Number(item.getAttribute('data-id-person'));
     document.getElementById("usernameR").value = rowOfPerson.children[1].textContent;
     document.getElementById("yearOfBirthR").value = rowOfPerson.children[2].textContent;
@@ -44,7 +46,7 @@ function deleteclick(item) {
         ?
         deletePersonOK(item)
         :
-        doNotDeletePerson()
+        doNotDeletePerson(response)
     );
 }
 
@@ -52,6 +54,8 @@ function deletePersonOK(item) {
     item.parentElement.parentElement.remove();
 }
 
-function doNotDeletePerson() {
-    alert("Пользователь не удален");
+function doNotDeletePerson(response) {
+    response.json().then(function(data) {
+        alert(data.message);
+    });
 }

@@ -6,7 +6,7 @@ import ru.esplit.first_security_app.models.Person;
 public interface PeopleService {
     Person findOne(long id);
 
-    void save(Person person);
+    long save(Person person);
 
     Person convertToPerson(PersonDTO personDTO, boolean isApplyId);
 }

@@ -41,8 +41,11 @@ public class PeopleServiceImpl implements PeopleService {
     }
 
     @Override
-    public Person convertToPerson(PersonDTO personDTO) {
+    public Person convertToPerson(PersonDTO personDTO, boolean isApplyId) {
         Person person = new Person();
+        if (isApplyId) {
+            person.setId(personDTO.getId());
+        }
         person.setPassword(personDTO.getPassword());
         person.setUsername(personDTO.getUsername());
         person.setYearOfBirth(personDTO.getYearOfBirth());

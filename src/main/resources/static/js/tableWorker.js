@@ -13,12 +13,10 @@
                 <td>${item.yearOfBirth}</td>
                 <td>${item.roles}</td>
                 <td>
-                    <button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"${'#editUser' + item.id}\">Редактировать</button>
+                    <button type=\"button\" class=\"btn btn-primary editPerson\" data-id-person=\"${item.id}\" data-bs-toggle=\"modal\" data-bs-target=\"#editUser\">Редактировать</button>
                 </td>
                 <td>
-                    <form method=\"POST\" action=\"/admin/users/${item.id}/delete\">
-                        <input class=\"btn btn-danger\" type=\"submit\" value=\"Удалить\" />
-                    </form>
+                    <button type=\"button\" class=\"btn btn-danger dltPerson\" data-dlt-person=\"${item.id}\">Удалить</button>
                 </td>
             </tr>`);
     });

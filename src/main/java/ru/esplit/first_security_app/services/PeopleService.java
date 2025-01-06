@@ -8,5 +8,5 @@ public interface PeopleService {
 
     void save(Person person);
 
-    Person convertToPerson(PersonDTO personDTO);
+    Person convertToPerson(PersonDTO personDTO, boolean isApplyId);
 }

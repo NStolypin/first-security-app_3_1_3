@@ -30,19 +30,26 @@
             body: JSON.stringify(person)
         }).then(response => (response.ok 
             ? 
-            okEditPerson(backG, tableBody, person)
+            okEditPerson(backG, tableBody, person, id, username, yearOfBirth, selectedOptions)
             :
             notEditPerson(response)
         ));
-       
     });
 }());
 
-function okEditPerson(backG, tableBody, person) {
+function okEditPerson(backG, tableBody, person, id, username, yearOfBirth, selectedOptions) {
     backG.insertAdjacentHTML("beforeEnd", 
         `<p style="color:darkgreen">
             Пользователь успешно отредактирован
         </p>`);
+    let trArray = Array.from(tableBody.children);
+    trArray.forEach(function(item) {
+        if (item.firstElementChild.innerText == id){
+            item.firstElementChild.nextElementSibling.innerText = username;
+            item.firstElementChild.nextElementSibling.nextElementSibling.innerText = yearOfBirth;
+            item.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.innerText = stringOfRoles(selectedOptions);
+        }
+    });
 }
 
 function notEditPerson(response) {

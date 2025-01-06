@@ -44,14 +44,13 @@ function okCreatedNewPerson(toAllPersonButton, tableBody, person, response) {
             <td>${person.username}</td>
             <td>${person.yearOfBirth}</td>
             <td>${stringOfRoles(person.roles)}</td>
-            
         </tr>`);
     response.then(data => {
         tableBody.lastElementChild.firstElementChild.innerText = data.id;
         tableBody.lastElementChild.insertAdjacentHTML("beforeEnd",
             `<td>
                 <button type=\"button\" class=\"btn btn-primary editPerson\" data-id-person=\"${data.id}\" data-bs-toggle=\"modal\" data-bs-target=\"#editUser\">Редактировать</button>
-            </td >
+            </td>
             <td>
                 <button type=\"button\" class=\"btn btn-danger dltPerson\" data-dlt-person=\"${data.id}\">Удалить</button>
             </td >`

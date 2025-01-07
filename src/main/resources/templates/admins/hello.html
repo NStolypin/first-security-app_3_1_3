@@ -46,27 +46,14 @@
                       <th scope="col">Удалить</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr th:each="personN : ${people}">
-                      <td scope="row" th:text="${personN.getId()}">ID</th>
-                      <td th:text="${personN.getUsername()}">FIO</td>
-                      <td th:text="${personDetails.getYearOfBirth()}">YearOfBirth</td>
-                      <td>
-                        <span th:each="role : ${personN.getRoles()}" th:text="${role.getId() + ' '}">ROLE</span>
-                      </td>
-                      <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" th:data-bs-target="${'#editUser' + personN.getId()}">Редактировать</button></td>
-                      <td>
-                        <form th:method="POST" th:action="@{/admin/users/{id}/delete(id=${personN.getId()})}">
-                          <input class="btn btn-danger" type="submit" value="Удалить" />
-                        </form>
-                      </td>
-                    </tr>
+                  <tbody id="myTableBody">
                   </tbody>
                 </table>
               </div>
               <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                 <button type="button" class="btn btn-outline-secondary w-100">Добавить нового пользователя</button>
                 <form th:method="POST" th:action="@{/admin/users/new}" th:object="${person}">
+                  <div id="ansError"></div>
                   <label for="username" class="form-label">Введите ФИО: </label>
                   <input type="text" class="form-control" th:field="*{username}" id="username" />
                   <div class="form-text" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error
@@ -84,7 +71,7 @@
                   <select class="form-select" multiple th:field="*{roles}" id="usersRoles">
                     <option th:each="role : ${roles}" th:value="${role.getId()}" th:text="${role.getId()}">ROLE</option>
                   </select>
-                  <input type="submit" class="btn btn-success" value="Создать" />
+                  <input id="myCreateNewPerson" type="submit" class="btn btn-success" value="Создать" />
                 </form>
 
               </div>
@@ -102,12 +89,12 @@
                 </tr>
               </thead>
               <tbody>
-                  <td scope="row" th:text="${personDetails.getId()}">ID</th>
-                  <td th:text="${personDetails.getUsername()}">FIO</td>
-                  <td th:text="${personDetails.getYearOfBirth()}">YearOfBirth</td>
-                  <td>
-                    <span th:each="role : ${personDetails.getRoles()}" th:text="${role.getId() + ' '}">ROLE</span>
-                  </td>
+                <td scope="row" th:text="${personDetails.getId()}">ID</th>
+                <td th:text="${personDetails.getUsername()}">FIO</td>
+                <td th:text="${personDetails.getYearOfBirth()}">YearOfBirth</td>
+                <td>
+                  <span th:each="role : ${personDetails.getRoles()}" th:text="${role.getId() + ' '}">ROLE</span>
+                </td>
                 </tr>
               </tbody>
             </table>
@@ -116,43 +103,41 @@
       </div>
     </div>
   </div>
-  <div th:each="personM, itemStat : *{people}" class="modal fade" th:id="${'editUser' + personM.getId()}" tabindex="-1" aria-labelledby="editUserLabel" aria-hidden="true">
+  <div class="modal fade" id="editUser" tabindex="-1" aria-labelledby="editUserLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="editUserLabel">Редактировать пользователя</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
         </div>
+        <form method="" action="">
         <div class="modal-body">
-          <form th:method="POST" th:action="@{/admin/users/{id}(id=${personM.getId()})}" th:object="${person}">
-            <label for="${'username' + personM.getId()}" class="form-label">Введите ФИО: </label>
-            <input type="text" class="form-control" th:value="${personM.getUsername()}" th:name="username" id="${'username' + personM.getId()}"/>
-            <div class="form-text" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error
-            </div>
-            <label th:for="${'yearOfBirth' + personM.getId()}" class="form-label">Введите год рождения: </label>
-            <input type="text" class="form-control" th:value="${personM.getYearOfBirth()}" th:name="yearOfBirth" th:id="${'yearOfBirth' + personM.getId()}" />
-            <div class="form-text" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">Year of
-              birth
-              error</div>
-            <label th:for="${'password' + personM.getId()}" class="form-label">Введите пароль: </label>
-            <input type="text" class="form-control" th:field="*{password}" th:id="${'password' + personM.getId()}" />
-            <div class="form-text" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error
-            </div>
-            <label for="${'usersRoles' + personM.getId()}" class="form-label">Выбарите роли: </label>
-            <select class="form-select" multiple name="roles" th:id="${'usersRoles' + personM.getId()}">
-              <option th:each="role : ${roles}" th:value="${role.getId()}" th:text="${role.getId()}" th:selected="${personM.getRoles().contains(role) ? true : false}">ROLE</option>
-            </select>
-            <input type="submit" class="btn btn-success" value="Редактировать" />
-          </form>
+          <div id="ansErrorR"></div>
+          <input type="hidden" id="idPerson" value="" />
+          <label for="usernameR" class="form-label">Введите ФИО: </label>
+          <input type="text" class="form-control" id="usernameR" />
+          <label th:for="yearOfBirthR" class="form-label">Введите год рождения: </label>
+          <input type="text" class="form-control" id="yearOfBirthR" />
+          <label for="passwordR" class="form-label">Введите пароль: </label>
+          <input type="text" class="form-control" id="passwordR" />
+          <label for="${'usersRoles' + personM.getId()}" class="form-label">Выбарите роли: </label>
+          <select class="form-select" multiple id="usersRolesR">
+            <option th:each="role : ${roles}" th:value="${role.getId()}" th:text="${role.getId()}">ROLE</option>
+          </select>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-          <button type="button" class="btn btn-primary">Сохранить изменения</button>
+          <input id="myEditPerson" type="submit" class="btn btn-success" value="Сохранить изменения" />
         </div>
+        </form>
       </div>
     </div>
   </div>
+  <script type="text/javascript" th:src="@{/js/tableWorker.js}"></script>
   <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+  <script type="text/javascript" th:src="@{/js/createNewPerson.js}"></script>
+  <script type="text/javascript" th:src="@{/js/setInputsForModalWindow.js}"></script>
+  <script type="text/javascript" th:src="@{/js/editPerson.js}"></script>
 </body>
 
 </html>

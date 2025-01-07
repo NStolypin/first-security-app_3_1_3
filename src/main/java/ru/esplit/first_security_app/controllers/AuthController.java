@@ -5,6 +5,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import ru.esplit.first_security_app.models.Person;
 import ru.esplit.first_security_app.services.RegistrationService;
 import ru.esplit.first_security_app.util.PersonValidator;
@@ -14,16 +15,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/auth")
 public class AuthController {
 
     private final RegistrationService registrationService;
     private final PersonValidator personValidator;
-
-    public AuthController(RegistrationService registrationService, PersonValidator personValidator) {
-        this.registrationService = registrationService;
-        this.personValidator = personValidator;
-    }
 
     @GetMapping("/login")
     public String loginPage() {
@@ -42,7 +39,7 @@ public class AuthController {
         if (bindingResult.hasErrors()) {
             return "/auth/registration";
         }
-        registrationService.register(person);
+        registrationService.registerUser(person);
         return "redirect:/auth/login";
     }
 }

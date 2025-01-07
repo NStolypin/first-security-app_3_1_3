@@ -7,20 +7,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import ru.esplit.first_security_app.models.Person;
 import ru.esplit.first_security_app.repositories.PeopleRepository;
 import ru.esplit.first_security_app.security.PersonDetails;
 
 @Service
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class PersonDetailsService implements UserDetailsService {
 
     private final PeopleRepository peopleRepository;
-
-    public PersonDetailsService(PeopleRepository peopleRepository) {
-        this.peopleRepository = peopleRepository;
-    }
 
     @Transactional
     @Override

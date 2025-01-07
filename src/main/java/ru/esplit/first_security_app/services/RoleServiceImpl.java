@@ -6,23 +6,19 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.RequiredArgsConstructor;
 import ru.esplit.first_security_app.dto.RoleDTO;
 import ru.esplit.first_security_app.models.Person;
 import ru.esplit.first_security_app.models.Role;
 import ru.esplit.first_security_app.repositories.RoleRepository;
 
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
     private final AdminService adminService;
-    
-
-    public RoleServiceImpl(RoleRepository roleRepository,
-            AdminService adminService) {
-        this.roleRepository = roleRepository;
-        this.adminService = adminService;
-    }
 
     @Override
     public List<Role> getAllRoles() {

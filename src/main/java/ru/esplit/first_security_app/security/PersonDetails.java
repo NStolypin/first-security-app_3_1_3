@@ -5,15 +5,13 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.RequiredArgsConstructor;
 import ru.esplit.first_security_app.models.Person;
 
+@RequiredArgsConstructor
 public class PersonDetails implements UserDetails {
 
     private final Person person;
-
-    public PersonDetails(Person person) {
-        this.person = person;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

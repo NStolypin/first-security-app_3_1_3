@@ -3,5 +3,5 @@ package ru.esplit.first_security_app.services;
 import ru.esplit.first_security_app.models.Person;
 
 public interface RegistrationService {
-    long register(Person person);
+    long registerUser(Person person);
 }

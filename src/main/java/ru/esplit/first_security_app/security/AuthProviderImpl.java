@@ -10,16 +10,14 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import lombok.RequiredArgsConstructor;
 import ru.esplit.first_security_app.services.PersonDetailsService;
 
 @Component
+@RequiredArgsConstructor
 public class AuthProviderImpl implements AuthenticationProvider {
 
     private final PersonDetailsService personDetailsService;
-
-    public AuthProviderImpl(PersonDetailsService personDetailsService) {
-        this.personDetailsService = personDetailsService;
-    }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {

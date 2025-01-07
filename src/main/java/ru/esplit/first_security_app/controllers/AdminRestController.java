@@ -72,7 +72,7 @@ public class AdminRestController {
             throw new PersonNotCreatedException(errorMsg.toString());
         }
         IdPersonDTO idPersonDTO = new IdPersonDTO();
-        idPersonDTO.setId(peopleService.save(peopleService.convertToPerson(personDTO, false)));
+        idPersonDTO.setId(peopleService.saveUser(peopleService.convertToPerson(personDTO, false)));
         return new ResponseEntity<>(idPersonDTO, HttpStatus.OK);
     }
 
@@ -83,7 +83,7 @@ public class AdminRestController {
             String errorMsg = "Вы не можете удалить сами себя";
             throw new PersonDoNotDeleteException(errorMsg);
         }
-        adminService.delete(idPersonDTO.getId(), personDetails.getPerson().getId());
+        adminService.deleteUser(idPersonDTO.getId(), personDetails.getPerson().getId());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -101,7 +101,7 @@ public class AdminRestController {
 
             throw new PersonNotCreatedException(errorMsg.toString());
         }
-        peopleService.save(peopleService.convertToPerson(personDTO, true));
+        peopleService.saveUser(peopleService.convertToPerson(personDTO, true));
         return ResponseEntity.ok(HttpStatus.OK);
     }
     

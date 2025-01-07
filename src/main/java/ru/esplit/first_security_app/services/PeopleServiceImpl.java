@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.RequiredArgsConstructor;
 import ru.esplit.first_security_app.dto.PersonDTO;
 import ru.esplit.first_security_app.dto.RoleDTO;
 import ru.esplit.first_security_app.models.Person;
@@ -15,6 +16,7 @@ import ru.esplit.first_security_app.repositories.PeopleRepository;
 import ru.esplit.first_security_app.util.PersonNotFoundException;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class PeopleServiceImpl implements PeopleService {
 
@@ -22,22 +24,14 @@ public class PeopleServiceImpl implements PeopleService {
     private final RegistrationService registrationService;
     private final RoleService roleService;
 
-    public PeopleServiceImpl(PeopleRepository peopleRepository,
-        RegistrationService registrationService,
-        RoleService roleService) {
-        this.peopleRepository = peopleRepository;
-        this.registrationService = registrationService;
-        this.roleService = roleService;
-    }
-
     public Person findOne(long id) {
         Optional<Person> foundPerson = peopleRepository.findById(id);
         return foundPerson.orElseThrow(PersonNotFoundException::new);
     }
 
     @Transactional
-    public long save(Person person) {
-        return this.registrationService.register(person);
+    public long saveUser(Person person) {
+        return this.registrationService.registerUser(person);
     }
 
     @Override

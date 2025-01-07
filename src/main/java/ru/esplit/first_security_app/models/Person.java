@@ -16,11 +16,13 @@ import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Table(name = "Person")
 public class Person {
@@ -55,5 +57,41 @@ public class Person {
 
     public Collection<? extends Role> getRoles() {
         return this.roles;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (int) (id ^ (id >>> 32));
+        result = prime * result + ((username == null) ? 0 : username.hashCode());
+        result = prime * result + yearOfBirth;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Person other = (Person) obj;
+        if (id != other.id)
+            return false;
+        if (username == null) {
+            if (other.username != null)
+                return false;
+        } else if (!username.equals(other.username))
+            return false;
+        if (yearOfBirth != other.yearOfBirth)
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Person [id=" + id + ", username=" + username + ", yearOfBirth=" + yearOfBirth + "]";
     }
 }

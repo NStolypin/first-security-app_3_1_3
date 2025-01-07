@@ -1,16 +1,14 @@
 package ru.esplit.first_security_app.dto;
 
-import java.util.Collection;
 import java.util.List;
 
-import org.springframework.security.core.GrantedAuthority;
-
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import ru.esplit.first_security_app.models.Operation;
+import lombok.Setter;
 import ru.esplit.first_security_app.models.Person;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class RoleDTO {
     private String id;
@@ -20,9 +18,34 @@ public class RoleDTO {
     public String getAuthority() {
         return this.id;
     }
-    private List<Operation> allowedOperations;
 
-    public Collection<? extends GrantedAuthority> getAllowedOperations() {
-        return allowedOperations;
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        RoleDTO other = (RoleDTO) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "RoleDTO [id=" + id + "]";
     }
 }

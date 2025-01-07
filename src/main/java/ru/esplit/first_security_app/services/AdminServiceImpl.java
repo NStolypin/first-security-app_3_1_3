@@ -3,26 +3,19 @@ package ru.esplit.first_security_app.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.RequiredArgsConstructor;
 import ru.esplit.first_security_app.models.Person;
 import ru.esplit.first_security_app.repositories.PeopleRepository;
 
-@Transactional(readOnly = true)
 @Service
+@RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
     private final PeopleRepository peopleRepository;
     private final RegistrationService registrationService;
-
-    public AdminServiceImpl(PeopleRepository peopleRepository,
-            RegistrationService registrationService,
-            PasswordEncoder passwordEncoder) {
-        this.peopleRepository = peopleRepository;
-        this.registrationService = registrationService;
-    }
 
     @Override
     public List<Person> getAllPeople() {
@@ -36,17 +29,17 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional
     @Override
-    public void update(long id, Person updatedUser) {
+    public void updateUser(long id, Person updatedUser) {
         Optional<Person> personForUpdated = getOnePerson(id);
         if (personForUpdated.isPresent()) {
             updatedUser.setId(id);
-            registrationService.register(updatedUser);
+            registrationService.registerUser(updatedUser);
         }
     }
 
     @Transactional
     @Override
-    public void delete(long id, long principalId) {
+    public void deleteUser(long id, long principalId) {
         if (id != principalId) {
             peopleRepository.deleteById(id);
         }
@@ -55,13 +48,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional
     @Override
-    public void create(Person person) {
-        registrationService.register(person);
+    public void createUser(Person person) {
+        registrationService.registerUser(person);
     }
-
-    @Override
-    public void doAdminStaff() {
-        System.out.println("Only admin hear");
-    }
-
 }

@@ -11,11 +11,9 @@ public interface AdminService {
 
     Optional<Person> getOnePerson(long id);
 
-    void update(long id, Person updatedUser);
+    void updateUser(long id, Person updatedUser);
 
-    void delete(long id, long principalId);
+    void deleteUser(long id, long principalId);
 
-    void create(Person person);
-
-    void doAdminStaff();
+    void createUser(Person person);
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository.findById(id);
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public void takeBackTheRole(long id, String role_id) {
         Optional<Role> roleO = roleRepository.findById(role_id);
@@ -42,7 +43,7 @@ public class RoleServiceImpl implements RoleService {
         }
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public void giveTheRole(long id, String role_id) {
         Optional<Role> roleO = roleRepository.findById(role_id);

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
@@ -24,16 +25,19 @@ public class PeopleServiceImpl implements PeopleService {
     private final RegistrationService registrationService;
     private final RoleService roleService;
 
+    @Override
     public Person findOne(long id) {
         Optional<Person> foundPerson = peopleRepository.findById(id);
         return foundPerson.orElseThrow(PersonNotFoundException::new);
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @Override
     public long saveUser(Person person) {
         return this.registrationService.registerUser(person);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public Person convertToPerson(PersonDTO personDTO, boolean isApplyId) {
         Person person = new Person();

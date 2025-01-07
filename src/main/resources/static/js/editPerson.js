@@ -32,7 +32,7 @@
             ? 
             okEditPerson(backG, tableBody, person, id, username, yearOfBirth, selectedOptions)
             :
-            notEditPerson(response)
+            notEditPerson(backG, response)
         ));
     });
 }());
@@ -52,15 +52,12 @@ function okEditPerson(backG, tableBody, person, id, username, yearOfBirth, selec
     });
 }
 
-function notEditPerson(response) {
+function notEditPerson(backG, response) {
     response.json().then(function(data) {
-        let ansErrors = document.getElementById("ansError");
-        ansErrors.insertAdjacentHTML("beforeEnd",
+        backG.insertAdjacentHTML("beforeEnd",
         `<p style="color:red">
             ${data.message}
         </p>`
     );
     })
-    
-    
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
@@ -38,16 +39,15 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public void deleteUser(long id, long principalId) {
         if (id != principalId) {
             peopleRepository.deleteById(id);
         }
-        
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public void createUser(Person person) {
         registrationService.registerUser(person);

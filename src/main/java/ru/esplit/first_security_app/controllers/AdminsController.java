@@ -71,7 +71,6 @@ public class AdminsController {
             BindingResult bindingResult, @PathVariable("id") long id, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("roles", roleService.getAllRoles());
-            model.addAttribute("roles", roleService.getAllRoles());
             return "admins/edit";
         }
         adminService.updateUser(id, person);

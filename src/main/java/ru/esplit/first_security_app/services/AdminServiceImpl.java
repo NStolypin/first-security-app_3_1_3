@@ -11,6 +11,7 @@ import ru.esplit.first_security_app.models.Person;
 import ru.esplit.first_security_app.repositories.PeopleRepository;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
